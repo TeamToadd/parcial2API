@@ -119,8 +119,11 @@ public class OrdersController(AppDbContext db) : ControllerBase
     [Authorize]
     public async Task<ActionResult<OrderDto>> GetById(int id)
     {
-        return await ToDto(id) ?? NotFound();
+        var dto = await ToDto(id);
+        if (dto == null) return NotFound();
+        return Ok(dto);
     }
+
 
     private async Task<OrderDto?> ToDto(int id)
     {
